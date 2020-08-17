@@ -43,9 +43,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
     public MessagesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         if (viewType == TYPE_MY_MESSAGE) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_message, parent, false);
         } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_other_message, parent, false);
         }
         return new MessagesViewHolder(view);
     }
@@ -67,11 +67,22 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
         String author = message.getAuthor();
         String textOfMessage = message.getTextOfMessage();
         String urlToImage = message.getImageUrl();
+
         holder.textViewAuthor.setText(author);
-        if (textOfMessage != null && !textOfMessage.isEmpty()) {
-            holder.textViewMessage.setText(textOfMessage);
+
+        if (urlToImage != null && !urlToImage.isEmpty()) {
+            holder.imageViewImage.setVisibility(View.VISIBLE);
+        } else {
             holder.imageViewImage.setVisibility(View.GONE);
         }
+
+        if (textOfMessage != null && !textOfMessage.isEmpty()) {
+            holder.textViewMessage.setText(textOfMessage);
+            holder.textViewMessage.setVisibility(View.VISIBLE);
+        } else {
+            holder.textViewMessage.setVisibility(View.GONE);
+        }
+
         if (urlToImage != null && !urlToImage.isEmpty()) {
             holder.imageViewImage.setVisibility(View.VISIBLE);
             Picasso.get().load(urlToImage).into(holder.imageViewImage);
